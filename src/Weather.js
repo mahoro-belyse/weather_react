@@ -3,10 +3,12 @@ import axios from "axios";
 
 export default function Weather() {
   function HandleResponse(response) {
-    alert(`the weather in New york is ${response.data.main.temp}&deg;c`);
+    alert(
+      `the weather in New york is ${response.data.main.temperature.current}&deg;c`
+    );
   }
   let apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
-  let apiurl = `https://api.shecodes.io/weather/v1/current?query=New york&key=${apiKey}&units=metric`;
+  let apiurl = `https://api.shecodes.io/weather/v1/current?query=Newyork&key=${apiKey}&units=metric`;
   axios.get(apiurl).then(HandleResponse);
   return (
     <div>
