@@ -4,7 +4,7 @@ import axios from "axios";
 export default function Weather() {
   function HandleResponse(response) {
     alert(
-      `the weather in New york is ${response.data.main.temperature.current}&deg;c`
+      `the weather in New york is ${response.data.temperature.current}&deg;c`
     );
   }
   let apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
