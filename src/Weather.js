@@ -13,25 +13,7 @@ export default function Weather() {
   });
   const [forecastData, setForecastData] = useState([]);
 
-  const call = useCallback((city) => {
-    const apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
-    const apiurl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-    axios.get(apiurl).then(exchange);
-  }, []);
-
-  useEffect(() => {
-    call("paris");
-  }, [call]);
-
-  const getForecast = (city) => {
-    const apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
-    const apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
-    axios(apiUrl).then((response) => {
-      setForecastData(response.data.daily);
-    });
-  };
-
-  const exchange = (response) => {
+  const exchange = useCallback((response) => {
     const data = response.data;
     setWeatherData({
       city: data.city,
@@ -43,7 +25,28 @@ export default function Weather() {
       icon: data.condition.icon_url,
     });
     getForecast(data.city);
-  };
+  }, []);
+
+  const call = useCallback(
+    (city) => {
+      const apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
+      const apiurl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+      axios.get(apiurl).then(exchange);
+    },
+    [exchange]
+  );
+
+  useEffect(() => {
+    call("paris");
+  }, [call]);
+
+  const getForecast = useCallback((city) => {
+    const apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
+    const apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+    axios(apiUrl).then((response) => {
+      setForecastData(response.data.daily);
+    });
+  }, []);
 
   const formdate = (timestamp) => {
     const date = new Date(timestamp * 1000);
