@@ -19,7 +19,7 @@ function App() {
             </a>
             and is
             <a
-              href="https://github.com/mahoro-belyse/weather-Project"
+              href="https://github.com/mahoro-belyse/weather_react"
               target="_blank"
               rel="noopener noreferrer"
             >
