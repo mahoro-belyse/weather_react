@@ -1,50 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
+import WeatherInfo from "./WeatherInfo";
+import Forecast from "./Forecast";
 import axios from "axios";
-import "./App.css";
+import "./Weather.css";
 
-export default function search(event) {
-  event.preventDefault();
-  let searchbar = document.querySelector("#SearchInput");
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
 
-  call(searchbar.value);
-}
-let searchinput = document.querySelector("#searchform");
-searchinput.addEventListener("submit", search);
-call("paris");
-function call(city) {
-  let apiKey = `d860d36baeo33ebcafd4ec2d01tf4406`;
-  let apiurl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-  axios.get(apiurl).then(exchange);
-}
-function exchange(response) {
-  let temperatureElement = document.querySelector("#temperaturechange");
-  temperatureElement.innerHTML = Math.round(response.data.temperature.current);
-  let cityelement = document.querySelector("#city");
-  cityelement.innerHTML = response.data.city;
-  let descriptionElement = document.querySelector("#description");
-  descriptionElement.innerHTML = response.data.condition.description;
-  let humidityElement = document.querySelector("#humidity");
-  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
-  let windElement = document.querySelector("#wind");
-  windElement.innerHTML = `${response.data.wind.speed}km/h`;
-  let timeElement = document.querySelector("#time");
-  let date = new Date(response.data.time * 1000);
-  timeElement.innerHTML = formdate(date);
-  let icon = document.querySelector("#temperatureicon");
-  icon.innerHTML = `<img src="${response.data.condition.icon_url}" class="weathericon" />`;
-}
-function formdate(date) {
-  let minutes = date.getMinutes();
-  let hours = date.getHours();
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  let day = days[date.getDay()];
-  return `${day} ${hours}:${minutes}`;
+  function handleResponse(response) {
+    setWeatherData({
+      ready: true,
+      coordinates: response.data.coordinates,
+      temperature: response.data.temperature.current,
+      humidity: response.data.temperature.humidity,
+      date: new Date(response.data.time * 1000),
+      description: response.data.condition.description,
+      icon: response.data.condition.icon,
+      wind: response.data.wind.speed,
+      city: response.data.city,
+    });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleCityChange(event) {
+    setCity(event.target.value);
+  }
+
+  function search() {
+    const apiKey = "eac360db5fc86ft86450f3693e73o43f";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  if (weatherData.ready) {
+    return (
+      <div className="Weather">
+        <a
+          href="https://www.shecodes.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/images/logo.png" className="logo" alt="SheCodes Logo" />
+        </a>
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9 ">
+              <input
+                type="search"
+                placeholder="Enter a city.."
+                className="form-control search-input"
+                onChange={handleCityChange}
+              />
+            </div>
+            <div className="col-3 p-0">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
+            </div>
+          </div>
+        </form>
+        <WeatherInfo data={weatherData} />
+        <Forecast
+          coordinates={weatherData.coordinates}
+          city={weatherData.city}
+        />
+        <footer>
+          This project was coded by{" "}
+          <a
+            href="https://www.shecodes.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            SheCodes
+          </a>{" "}
+          and is{" "}
+          <a
+            href="https://github.com/shecodesio/weather"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            open-sourced on GitHub
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://shecodes-weather.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            hosted on Netlify
+          </a>
+        </footer>
+      </div>
+    );
+  } else {
+    search();
+    return "Loading...";
+  }
 }
