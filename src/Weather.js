@@ -72,11 +72,11 @@ export default function Weather(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            SheCodes
+            U.M.Belyse
           </a>{" "}
           and is{" "}
           <a
-            href="https://github.com/shecodesio/weather"
+            href="https://github.com/mahoro-belyse/weather_react"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -84,7 +84,7 @@ export default function Weather(props) {
           </a>{" "}
           and{" "}
           <a
-            href="https://shecodes-weather.netlify.app/"
+            href="https://magenta-starburst-cf5411.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
