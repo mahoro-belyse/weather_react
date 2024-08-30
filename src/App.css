@@ -1,25 +1,19 @@
-@font-face {
-  font-family: "Cerebri Sans";
-  src: url(../public/fonts/Cerebri-Sans/CerebriSans-Light.eot);
-  src: url(../public/fonts/Cerebri-Sans/CerebriSans-Light.ttf);
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500;700&display=swap");
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+.light-text {
   font-weight: 300;
-  font-style: normal;
 }
 
-@font-face {
-  font-family: "Cerebri Sans";
-  src: url(../public/fonts/Cerebri-Sans/CerebriSans-Regular.eot);
-  src: url(../public/fonts/Cerebri-Sans/CerebriSans-Regular.ttf);
+.regular-text {
   font-weight: 500;
-  font-style: normal;
 }
 
-@font-face {
-  font-family: "Cerebri Sans";
-  src: url(../public/fonts/Cerebri-Sans/CerebriSans-Bold.eot);
-  src: url(../public/fonts/Cerebri-Sans/CerebriSans-Bold.ttf);
+.bold-text {
   font-weight: 700;
-  font-style: normal;
 }
 
 body {
